@@ -1,5 +1,5 @@
 from django.test import TestCase
-from posts.models import Group, Post, User, Comment
+from posts.models import Comment, Group, Post, User
 
 
 class PostModelTest(TestCase):
@@ -51,7 +51,6 @@ class PostModelTest(TestCase):
             with self.subTest(field=field):
                 self.assertEqual(
                     post._meta.get_field(field).help_text, expected_value)
-
 
 
 class CommentModelTest(TestCase):

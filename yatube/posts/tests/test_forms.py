@@ -1,8 +1,8 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 from django.urls import reverse
-from posts.forms import PostForm, CommentForm
-from posts.models import Group, Post, User, Comment
-from django.core.files.uploadedfile import SimpleUploadedFile
+from posts.forms import CommentForm, PostForm
+from posts.models import Comment, Group, Post, User
 
 
 class PostFormsTests(TestCase):
@@ -66,9 +66,6 @@ class PostFormsTests(TestCase):
             'posts:post_detail', kwargs={'post_id': post.id})
         )
         self.assertEqual(post.text, NEW_TEST_TEXT)
-
-
-
 
     def test_create_post_with_image(self):
         """Валидная форма с картинкой создает запись в Post."""

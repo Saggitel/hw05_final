@@ -1,10 +1,11 @@
+from datetime import date
+
 from django import forms
+from django.core.cache import cache
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 from django.urls import reverse
-from posts.models import Group, Post, User, Comment, Follow
-from datetime import date
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.core.cache import cache
+from posts.models import Comment, Follow, Group, Post, User
 from posts.views import NUMBER_OF_POSTS
 
 
@@ -34,7 +35,7 @@ class PostPagesTests(TestCase):
             title='Тестовая группа',
             slug='test_slug',
             description='Тестовое описание',
-        )    
+        )
         cls.post = Post.objects.create(
             author=cls.user,
             text='Тестовый текст',
@@ -216,10 +217,6 @@ class PostPagesTests(TestCase):
         self.assertNotIn(
             post_with_group, response.context['page_obj']
         )
-
-
-
-
 
     def test_post_detail_show_the_comment(self):
         """На страницах post_detail отображается

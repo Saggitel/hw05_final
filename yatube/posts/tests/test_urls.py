@@ -1,8 +1,7 @@
-from django.test import TestCase, Client
 from http import HTTPStatus
+
+from django.test import Client, TestCase
 from django.urls import reverse
-
-
 from posts.models import Group, Post, User
 
 
@@ -44,8 +43,7 @@ class PostURLTests(TestCase):
             with self.subTest(url=url):
                 response = self.guest_client.get(url)
                 self.assertEqual(response.status_code, status)
-
-                
+          
     def test_create_url_exists_at_desired_location(self):
         """Страница /create/ доступна авторизированному пользователю."""
         response = self.authorized_client.get('/create/')
