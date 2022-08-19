@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.core.cache import cache
 from django.test import Client, TestCase
 from django.urls import reverse
 from posts.models import Group, Post, User
@@ -24,6 +25,7 @@ class PostURLTests(TestCase):
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
+        cache.clear()
 
     def test_url_exists_at_desired_location(self):
         """Страницы доступны любому пользователю."""

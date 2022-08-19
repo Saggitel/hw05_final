@@ -61,6 +61,7 @@ class PostPagesTests(TestCase):
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
+        cache.clear()
 
     def test_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
@@ -252,6 +253,7 @@ class PaginatorViewsTest(TestCase):
 
     def setUp(self):
         self.guest_client = Client()
+        cache.clear()
 
     def test_num_of_posts_on_the_pages_is_correct(self):
         """
@@ -311,6 +313,7 @@ class CacheViewsTest(TestCase):
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
+        cache.clear()
 
     def test_cache(self):
         response = self.authorized_client.get(reverse('posts:index'))
