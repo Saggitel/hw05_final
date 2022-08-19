@@ -14,6 +14,7 @@ def paginator(request, posts):
     page_number = request.GET.get('page')
     return paginator.get_page(page_number)
 
+
 @cache_page(20, key_prefix='index_page')
 def index(request):
     posts = Post.objects.select_related('group')
@@ -124,7 +125,7 @@ def profile_follow(request, username):
             user=request.user,
             author=User.objects.get(username=username)
         )
-        return redirect('posts:profile', username) 
+        return redirect('posts:profile', username)
 
 
 @login_required
