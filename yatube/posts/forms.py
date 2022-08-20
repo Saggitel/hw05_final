@@ -17,3 +17,5 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ('text',)
+        help_texts = {'text': 'Напишиет свой коментарий'}
+        labels = {'text': 'Текст'}

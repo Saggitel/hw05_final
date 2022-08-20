@@ -68,12 +68,12 @@ class Comment(CreatedModel):
         related_name='comments',
     )
     text = models.TextField(
-        verbose_name='Текст комментария',
+        verbose_name='Комментарий',
         help_text='Введите текст комментария'
     )
 
     def __str__(self):
-        return self.text
+        return self.text[:15]
 
 
 class Follow(models.Model):

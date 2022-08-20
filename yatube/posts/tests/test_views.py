@@ -92,14 +92,10 @@ class PostPagesTests(TestCase):
         posts = response.context['page_obj']
         for post in posts:
             if post.author == self.user:
-                post_text = post.text
-                post_author = post.author
-                post_group = post.group.title
-                post_image = post.image
-                self.assertEqual(post_text, self.post.text)
-                self.assertEqual(post_author, self.user)
-                self.assertEqual(post_group, self.group.title)
-                self.assertEqual(post_image, self.post.image)
+                self.assertEqual(post.text, self.post.text)
+                self.assertEqual(post.author, self.user)
+                self.assertEqual(post.group.title, self.group.title)
+                self.assertEqual(post.image, self.post.image)
 
     def test_group_posts_uses_correct_context(self):
         """Шаблон group_posts сформирован с правильным контекстом."""
@@ -110,17 +106,12 @@ class PostPagesTests(TestCase):
         posts = response.context['page_obj']
         for post in posts:
             if post.author == self.user:
-                post_text = post.text
-                post_image = post.image
-                post_group_title = post.group.title
-                post_group_slug = post.group.slug
-                post_group_description = post.group.description
-                self.assertEqual(post_text, self.post.text)
-                self.assertEqual(post_image, self.post.image)
-                self.assertEqual(post_group_title, self.group.title)
-                self.assertEqual(post_group_slug, self.group.slug)
+                self.assertEqual(post.text, self.post.text)
+                self.assertEqual(post.image, self.post.image)
+                self.assertEqual(post.group.title, self.group.title)
+                self.assertEqual(post.group.slug, self.group.slug)
                 self.assertEqual(
-                    post_group_description, self.group.description
+                    post.group.description, self.group.description
                 )
 
     def test_profile_uses_correct_context(self):
@@ -132,14 +123,12 @@ class PostPagesTests(TestCase):
         posts = response.context['page_obj']
         for post in posts:
             if post.author == self.user:
-                post_author = post.author
                 post_title = f'Профайл пользователя {post.author}'
-                post_image = post.image
-                self.assertEqual(post_author, self.user)
+                self.assertEqual(post.author, self.user)
                 self.assertEqual(
                     post_title, f'Профайл пользователя {self.user}'
                 )
-                self.assertEqual(post_image, self.post.image)
+                self.assertEqual(post.image, self.post.image)
 
     def test_post_detail_uses_correct_context(self):
         """Шаблон post_detail сформирован с правильным контекстом."""
@@ -151,12 +140,11 @@ class PostPagesTests(TestCase):
         post = response.context['post']
         if post.author == self.user:
             post_title = post.text[:NUM_OF_TEXTS_SYMBOLS_IN_TITLE]
-            post_image = post.image
             self.assertEqual(
                 post_title, self.post.text[:NUM_OF_TEXTS_SYMBOLS_IN_TITLE]
             )
             self.assertEqual(post, self.post)
-            self.assertEqual(post_image, self.post.image)
+            self.assertEqual(post.image, self.post.image)
 
     def test_post_create_uses_correct_context(self):
         """Шаблон post_create сформирован с правильным контекстом."""
@@ -192,7 +180,6 @@ class PostPagesTests(TestCase):
         """На страницах index, group_list, profile отображается пост
         с указанной группой.
         """
-        post_with_group = self.post
         reverse_names = [
             reverse('posts:index'),
             reverse('posts:group_list', kwargs={'slug': self.group.slug}),
@@ -202,31 +189,29 @@ class PostPagesTests(TestCase):
             with self.subTest():
                 response = self.guest_client.get(reverse_name)
                 self.assertIn(
-                    post_with_group, response.context['page_obj']
+                    self.post, response.context['page_obj']
                 )
 
     def test_post_is_not_in_the_wrong_group(self):
         """Пост с указанной группой не попал в другую группу."""
-        post_with_group = self.post
         response = self.guest_client.get(
             reverse('posts:group_list', kwargs={
                 'slug': self.second_group.slug}
             )
         )
         self.assertNotIn(
-            post_with_group, response.context['page_obj']
+            self.post, response.context['page_obj']
         )
 
     def test_post_detail_show_the_comment(self):
         """На страницах post_detail отображается
         комментарий к посту.
         """
-        comment = self.comment
         response = self.guest_client.get(
             reverse('posts:post_detail', kwargs={
                 'post_id': f'{self.post.id}'}
             ))
-        self.assertIn(comment, response.context['comments'])
+        self.assertIn(self.comment, response.context['comments'])
 
 
 class PaginatorViewsTest(TestCase):

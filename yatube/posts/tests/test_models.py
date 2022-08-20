@@ -73,7 +73,7 @@ class CommentModelTest(TestCase):
         cls.comment = Comment.objects.create(
             post=cls.post,
             author=cls.another_user,
-            text='Текст комментария'
+            text='Комментарий'
         )
 
     def test_comment_model_has_correct_object_names(self):
@@ -86,7 +86,7 @@ class CommentModelTest(TestCase):
         """verbose_name в полях совпадает с ожидаемым."""
         comment = self.comment
         field_verboses = {
-            'text': 'Текст комментария',
+            'text': 'Комментарий',
             'created': 'Дата публикации',
             'author': 'Автор',
             'post': 'Пост',
